@@ -1,0 +1,22 @@
+{
+  "name": "campgrounds",
+  "version": "1.0.0",
+  "description": "Campgrounds full stack web application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hosamelshazly92/Campgrounds.git"
+  },
+  "keywords": [
+    "campground"
+  ],
+  "author": "Hosam Elshazly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hosamelshazly92/Campgrounds/issues"
+  },
+  "homepage": "https://github.com/hosamelshazly92/Campgrounds#readme"
+}
