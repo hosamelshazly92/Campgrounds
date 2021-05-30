@@ -17,9 +17,7 @@ db.once("open", () => {
     console.log(`==========> DB server is running on port: ${dbPort}`);
 });
 
-const sample = (arr) => {
-    arr[Math.floor(Math.random() * arr.length)];
-}
+const sample = arr => arr[Math.floor(Math.random() * arr.length)];
 
 const seedDB = async () => {
     await Campground.deleteMany({});

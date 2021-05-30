@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
-const campground = require('./models/campground');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -27,8 +26,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/campgrounds', async (req, res) => {
-    const campgrounds = await Campground.find();
-    res.render('campgrounds/index');
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', {campgrounds});
 });
 
 const port = 3000;
