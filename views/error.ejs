@@ -1,0 +1,23 @@
+<% layout('./layout/template') %>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Error :S</h4>
+
+            <!-- <p><%= err.message %></p> -->
+
+            <!-- <p><%= err.stack %></p> -->
+
+            <p>Looks like you have entered either an invalid URL or some invalid inputs.</p>
+
+            <hr>
+
+            <p class="mb-0">Make sure your are making a valid request.</p>
+        </div>
+
+        <div class="mb-3">
+            <a class="btn btn-info" href="/campgrounds">Go To Campgrounds</a>
+        </div>
+    </div>
+</div>
