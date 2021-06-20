@@ -7,6 +7,7 @@ const Campground = require('./models/campground');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const Err = require('./utils/Err');
+const { campgroundSchema } = require('./validate');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -31,6 +32,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+const validateCampground = (req, res, next) => {
+    const { error } = campgroundSchema.validate(req.body);
+
+    if (error) {
+        const msg = error.details.map(elm => elm.message).join(', ');
+        throw new Err(msg, 400);
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home');
 
@@ -50,9 +62,9 @@ app.get('/campgrounds/new', (req, res) => {
     console.log(`==========> requested path: ${ req.url }`);
 });
 
-app.post('/campgrounds', catchAsync(async (req, res, next) => {
-    if(!req.body.campground) throw new Err('Invalid input', 400);
-
+app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) => {
+    // if(!req.body.campground) throw new Err('Invalid input', 400);
+    
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${ campground._id }`);
@@ -74,7 +86,7 @@ app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
     console.log(`==========> requested path: ${ req.url }`);
 }));
 
-app.put('/campgrounds/:id', catchAsync(async (req, res) => {
+app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
     res.redirect(`/campgrounds/${ campground._id }`);
@@ -97,7 +109,7 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if(!err.message) err.message = 'Something went wrong :(';
-    
+
     res.status(statusCode).render('error', { err });
 });
 
