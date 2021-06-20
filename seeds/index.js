@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const cities = require('./cities');
-const {places, descriptors} = require('./seedHelpers');
+const { places, descriptors } = require('./seedHelpers');
 const Campground = require('../models/campground');
 
 const dbPort = 27017;
 const dbName = 'camp';
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`, {
+mongoose.connect(`mongodb://localhost:${ dbPort }/${ dbName }`, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -14,7 +14,7 @@ mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`, {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
-    console.log(`==========> DB server is running on port: ${dbPort}`);
+    console.log(`==========> DB server is running on port: ${ dbPort }`);
 });
 
 const sample = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -26,8 +26,8 @@ const seedDB = async () => {
         const random = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
-            location: `${cities[random].city}, ${cities[random].state}`,
-            title: `${sample(descriptors)} ${sample(places)}`,
+            location: `${ cities[random].city }, ${ cities[random].state }`,
+            title: `${ sample(descriptors) } ${ sample(places) }`,
             image: `https://source.unsplash.com/collection/483251`,
             description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.',
             price
