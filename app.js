@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const Err = require('./utils/Err');
 const { campgroundSchema } = require('./validate');
+const Review = require('./models/review');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -100,6 +101,15 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds');
 
     console.log(`==========> requested path: ${ req.url }`);
+}));
+
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${ campground._id }`);
 }));
 
 app.all('*', (req, res, next) => {
