@@ -1,7 +1,7 @@
 <% layout('./layout/template') %>
 
 <div class="row">
-    <div class="col-6 offset-3">
+    <div class="col-6">
         <div class="card mb-3">
             <img src="<%= campground.image %>" class="card-img-top" alt="Campground Card">
         
@@ -31,8 +31,14 @@
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
-        </div>
 
+            <div class="card-footer">
+                <span>2 days ago</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
         <h2>leave a Review</h2>
 
         <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
@@ -49,5 +55,23 @@
 
             <button class="btn btn-success">Submit</button>
         </form>
+
+        <% for (let review of campground.reviews) { %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="card-title">
+                    <h5>Rating: <%= review.rating %></h5>
+                </div>
+
+                <div class="card-text">
+                    <p><%= review.body %></p>
+                </div>
+                
+                <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        <% } %>
     </div>
 </div>
