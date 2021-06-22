@@ -7,7 +7,7 @@ const Campground = require('./models/campground');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const Err = require('./utils/Err');
-const { campgroundSchema } = require('./validate');
+const { campgroundSchema, reviewSchema } = require('./validate');
 const Review = require('./models/review');
 
 const dbPort = 27017;
@@ -35,6 +35,17 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
+
+    if (error) {
+        const msg = error.details.map(elm => elm.message).join(', ');
+        throw new Err(msg, 400);
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
 
     if (error) {
         const msg = error.details.map(elm => elm.message).join(', ');
@@ -103,7 +114,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     console.log(`==========> requested path: ${ req.url }`);
 }));
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
     campground.reviews.push(review);
