@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campgrounds</title>
 
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body class="d-flex flex-column vh-100">
@@ -20,27 +20,6 @@
 
     <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-        'use strict'
-    
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-    
-        // Loop over them and prevent submission
-        Array.from(forms)
-            .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                }
-    
-                form.classList.add('was-validated')
-            }, false)
-            })
-        })()
-    </script>
+    <script type="text/javascript" src="/js/formValidation.js"></script>
 </body>
 </html>
