@@ -3,13 +3,10 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const Campground = require('./models/campground');
-const Review = require('./models/review');
 const ejsMate = require('ejs-mate');
-const catchAsync = require('./utils/catchAsync');
 const Err = require('./utils/Err');
-const { reviewSchema } = require('./validate');
 const campgrounds = require('./routes/campgrounds');
+const reviews = require('./routes/reviews');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -35,44 +32,14 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'assets')));
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-
-    if (error) {
-        const msg = error.details.map(elm => elm.message).join(', ');
-        throw new Err(msg, 400);
-    } else {
-        next();
-    }
-}
-
 app.use('/campgrounds', campgrounds);
+app.use('/campgrounds/:id/reviews', reviews);
 
 app.get('/', (req, res) => {
     res.render('home');
 
     console.log(`==========> requested path: ${ req.url }`);
 });
-
-app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = new Review(req.body.review);
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-    res.redirect(`/campgrounds/${ campground._id }`);
-
-    console.log(`==========> requested path: ${ req.url }`);
-}));
-
-app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/campgrounds/${ id }`);
-
-    console.log(`==========> requested path: ${ req.url }`);
-}));
 
 app.all('*', (req, res, next) => {
     next(new Err('Page Not Found', 404));
