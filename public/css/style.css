@@ -4,3 +4,9 @@ img.img-fluid {
     width: 100%;
     height: 220px;
 }
+
+span.greeting {
+    line-height: 40px;
+    color: #0d6efd !important;
+    text-decoration: underline;
+}

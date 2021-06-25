@@ -9,8 +9,17 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link active" href="/">Home</a>
-                <a class="nav-link" href="/campgrounds">Campgrounds</a>
                 <a class="nav-link" href="/campgrounds/new">New Campground</a>
+            </div>
+
+            <div class="navbar-nav ms-auto">
+                <% if (!currentUser) { %>
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/register">Register</a>
+                <% } else { %>
+                    <span class="greeting">Welcome, <%= currentUser.username %></span>
+                    <a class="nav-link" href="/logout">Logout</a>
+                <% } %> 
             </div>
         </div>
     </div>
