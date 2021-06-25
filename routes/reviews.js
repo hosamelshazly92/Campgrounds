@@ -4,18 +4,8 @@ const catchAsync = require('../utils/catchAsync');
 const Err = require('../utils/Err');
 const Campground = require('../models/campground');
 const Review = require('../models/review');
-const { reviewSchema } = require('../validate');
-
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-
-    if (error) {
-        const msg = error.details.map(elm => elm.message).join(', ');
-        throw new Err(msg, 400);
-    } else {
-        next();
-    }
-}
+const { reviewSchema } = require('../utils/validate');
+const { validateReview } = require('../utils/validateReview');
 
 router.post('/', validateReview, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
