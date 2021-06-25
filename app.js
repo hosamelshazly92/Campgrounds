@@ -8,6 +8,9 @@ const flash = require('connect-flash');
 const Err = require('./utils/Err');
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
+const passport = require('passport');
+const passportLocal = require('passport-local');
+const User = require('./models/user');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -49,6 +52,12 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -57,6 +66,8 @@ app.use((req, res, next) => {
 
 app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
+
+
 
 app.get('/', (req, res) => {
     res.render('home');
