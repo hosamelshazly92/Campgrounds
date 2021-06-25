@@ -6,11 +6,13 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
 const Err = require('./utils/Err');
-const campgrounds = require('./routes/campgrounds');
-const reviews = require('./routes/reviews');
 const passport = require('passport');
 const passportLocal = require('passport-local');
 const User = require('./models/user');
+
+const campgroundsRoutes = require('./routes/campgrounds');
+const reviewsRoutes = require('./routes/reviews');
+const usersRoutes = require('./routes/users');
 
 const dbPort = 27017;
 const dbName = 'camp';
@@ -64,15 +66,17 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/campgrounds', campgrounds);
-app.use('/campgrounds/:id/reviews', reviews);
+app.use((req, res, next) => {
+    console.log(`==========> requested path: ${ req.url }`);
+    next();
+});
 
-
+app.use('/campgrounds', campgroundsRoutes);
+app.use('/campgrounds/:id/reviews', reviewsRoutes);
+app.use('/', usersRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');
-
-    console.log(`==========> requested path: ${ req.url }`);
 });
 
 app.all('*', (req, res, next) => {

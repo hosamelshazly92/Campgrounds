@@ -19,14 +19,10 @@ const validateCampground = (req, res, next) => {
 router.get('/', async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
-
-    console.log(`==========> requested path: ${ req.url }`);
 });
 
 router.get('/new', (req, res) => {
     res.render('campgrounds/new');
-
-    console.log(`==========> requested path: ${ req.url }`);
 });
 
 router.post('/', validateCampground, catchAsync(async (req, res, next) => {
@@ -34,8 +30,6 @@ router.post('/', validateCampground, catchAsync(async (req, res, next) => {
     await campground.save();
     req.flash('success', 'New campground was added successfully!');
     res.redirect(`/campgrounds/${ campground._id }`);
-
-    console.log(`==========> requested path: ${ req.url }`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
@@ -45,8 +39,6 @@ router.get('/:id', catchAsync(async (req, res) => {
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
-
-    console.log(`==========> requested path: ${ req.url }`);
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
@@ -56,8 +48,6 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/edit', { campground });
-
-    console.log(`==========> requested path: ${ req.url }`);
 }));
 
 router.put('/:id', validateCampground, catchAsync(async (req, res) => {
@@ -66,8 +56,6 @@ router.put('/:id', validateCampground, catchAsync(async (req, res) => {
     const campgroundName = await Campground.findById(id);
     req.flash('success', `${ campgroundName.title } was updated successfully!`);
     res.redirect(`/campgrounds/${ campground._id }`);
-
-    console.log(`==========> requested path: ${ req.url }`);
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
@@ -75,8 +63,6 @@ router.delete('/:id', catchAsync(async (req, res) => {
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Campground is removed');
     res.redirect('/campgrounds');
-
-    console.log(`==========> requested path: ${ req.url }`);
 }));
 
 module.exports = router;
