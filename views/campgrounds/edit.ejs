@@ -4,7 +4,7 @@
     <h1 class="text-center">Edit Campground</h1>
 
     <div class="col-6 offset-3">
-        <form class="needs-validation" action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate>
+        <form class="needs-validation" action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" id="title" type="text" name="campground[title]" value="<%= campground.title %>" required>
@@ -14,12 +14,6 @@
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
                 <input class="form-control" id="location" type="text" name="campground[location]" value="<%= campground.location %>" required>
-                <div class="valid-feedback">Success!</div>
-            </div>
-        
-            <div class="mb-3">
-                <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" id="image" type="text" name="campground[image]" value="<%= campground.image %>" required>
                 <div class="valid-feedback">Success!</div>
             </div>
 
@@ -38,6 +32,30 @@
                     <%= campground.description %>
                 </textarea>
                 <div class="valid-feedback">Success!</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="image">Upload Images</label>
+
+                <div class="input-group mb-3">
+                    <input class="form-control" id="image" type="file" name="image" multiple>
+                </div>
+            </div>
+
+            <div class="mb-3 overflow-hidden">
+                <ul class="overflow-hidden">
+                    <% campground.images.forEach((img, i) => { %>
+                        <li class="mb-2 overflow-hidden">
+                            <div class="form-check-inline float-start">
+                                <input id="img-<%= i %>" type="checkbox" name="removeImages[]" value="<%= img.filename %>">
+                                <label for="img-<%= i %>">Remove</label>
+                            </div>
+                            <div>
+                                <img class="img-thumbnail" src="<%= img.thumbnail %>" alt="Campground Card">
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
             </div>
         
             <div class="mb-3">

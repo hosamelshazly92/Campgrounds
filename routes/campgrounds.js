@@ -5,6 +5,9 @@ const { isLoggedIn } = require('../utils/isLoggedIn');
 const { isAuthor } = require('../utils/isAuthor');
 const { validateCampground } = require('../utils/validateCampground');
 const campgrounds = require('../controllers/campgrounds');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 router.get(
     '/',
@@ -20,6 +23,7 @@ router.get(
 router.post(
     '/',
     isLoggedIn,
+    upload.array('image'),
     validateCampground,
     catchAsync(campgrounds.createCampground)
 );
@@ -40,6 +44,7 @@ router.put(
     '/:id',
     isLoggedIn,
     isAuthor,
+    upload.array('image'),
     validateCampground,
     catchAsync(campgrounds.updateCampground)
 );

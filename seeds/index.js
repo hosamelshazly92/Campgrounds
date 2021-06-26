@@ -22,14 +22,23 @@ const sample = arr => arr[Math.floor(Math.random() * arr.length)];
 const seedDB = async () => {
     await Campground.deleteMany({});
 
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < 10; i++) {
         const random = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
             author: "60d5b1d27dd1942decf50084",
             location: `${ cities[random].city }, ${ cities[random].state }`,
             title: `${ sample(descriptors) } ${ sample(places) }`,
-            image: `https://source.unsplash.com/collection/483251`,
+            images: [
+                {
+                    filename: 'Nevada Las Vegas',
+                    url: 'https://res.cloudinary.com/ux-ui-designer/image/upload/v1624727506/Campgrounds/nevada-las-vegas_rwgkxh.jpg'
+                },
+                {
+                    filename: 'Tent Camping',
+                    url: 'https://res.cloudinary.com/ux-ui-designer/image/upload/v1624727504/Campgrounds/tent-camping_d7j1nt.jpg'
+                }
+            ],
             description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.",
             price
         });
