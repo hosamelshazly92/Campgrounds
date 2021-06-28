@@ -13,7 +13,11 @@
     <div class="card mb-3">
         <div class="row">
             <div class="col-md-4">
-                <img class="img-fluid" src="<%= campground.images[0].url %>" alt="Campground Image" />
+                <% if (campground.images.length) { %>
+                    <img class="img-fluid" src="<%= campground.images[0].url %>" alt="Campground Image" />
+                <% } else { %>
+                    <img class="img-fluid" src="https://res.cloudinary.com/ux-ui-designer/image/upload/v1624913177/Campgrounds/placeholder_rmhlxa.jpg" alt="Image Placeholder" />
+                <% } %>
             </div>
 
             <div class="col-md-8">

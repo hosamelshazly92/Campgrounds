@@ -4,11 +4,13 @@
     <div class="col-6">
         <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <% campground.images.forEach((img, i) => { %>
+                <% if (campground.images.length) { campground.images.forEach((img, i) => { %>
                     <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
                         <img class="img-fluid" src="<%= img.url %>" class="d-block w-100" alt="Campground Card">
                     </div>
-                <% }) %>
+                <% })} else { %>
+                    <img class="img-fluid" src="https://res.cloudinary.com/ux-ui-designer/image/upload/v1624913177/Campgrounds/placeholder_rmhlxa.jpg" alt="Image Placeholder" />
+                <% } %>
             </div>
 
             <% if (campground.images.length > 1) { %>
@@ -53,6 +55,8 @@
     </div>
 
     <div class="col-6">
+        <div class="mb-3" id="map" style="height: 280px;"></div>
+
         <% if (currentUser) { %>
             <h2>leave a Review</h2>
 
@@ -102,3 +106,26 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    mapboxgl.accessToken = "<%- process.env.MAPBOX_TOKEN %>";
+    const camp = <%- JSON.stringify(campground) %>;
+    const point = camp.geometry.coordinates;
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: point,
+        zoom: 8
+    });
+
+    const marker = new mapboxgl.Marker()
+        .setLngLat(point)
+        .setPopup(
+            new mapboxgl.Popup({ offset: 40 })
+                .setHTML(
+                    `<h6 style="margin-top: 10px;">${ camp.title }</h6><p style="margin: 0;">${ camp.location }</p>`
+                )
+        )
+        .addTo(map);
+</script>
