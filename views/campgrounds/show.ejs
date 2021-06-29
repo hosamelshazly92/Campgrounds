@@ -119,6 +119,9 @@
         zoom: 8
     });
 
+    // Add zoom and rotation controls to the map.
+    map.addControl(new mapboxgl.NavigationControl());
+
     const marker = new mapboxgl.Marker()
         .setLngLat(point)
         .setPopup(
