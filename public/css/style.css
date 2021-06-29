@@ -22,3 +22,24 @@ span.greeting {
     color: #0d6efd !important;
     text-decoration: underline;
 }
+
+.home {
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://res.cloudinary.com/ux-ui-designer/image/upload/v1625000279/Campgrounds/tommy-lisbin-2DH-qMX6M4E-unsplash_ru9xfc.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.home div.cover-container {
+    max-width: 60vw;
+}
+
+.home .nav-link {
+    font-weight: 600;
+    border-bottom: 0.25rem solid transparent;
+}
+
+.home .nav-link:hover {
+    border-bottom-color:#0a58ca;
+}
