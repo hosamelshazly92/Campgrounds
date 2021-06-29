@@ -4,16 +4,16 @@
     <div class="col-6 offset-3">
         <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Error :S</h4>
-
             <p>Oops!</p>
 
             <hr>
 
             <p>Looks like you have entered either an invalid URL or some invalid inputs.</p>
-
-            <p class="mb-0"><%= err.message %></p>
-
-            <p><%= err.stack %></p>
+            <% if (process.env.NODE_ENV !== "production") { %>
+                <p class="mb-0"><%= err.message %></p>
+                <p><%= err.stack %></p>
+            <% } %>
+            
         </div>
 
         <div class="mb-3">
