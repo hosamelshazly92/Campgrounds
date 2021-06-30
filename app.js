@@ -20,9 +20,9 @@ const campgroundsRoutes = require('./routes/campgrounds');
 const reviewsRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 
-const dbPort = 27017;
-const dbName = 'camp';
-mongoose.connect(`mongodb://localhost:${ dbPort }/${ dbName }`, {
+// const mongoDBURL = process.env.mongoDB;
+const localhostDBURL = 'mongodb://localhost:27017/camp';
+mongoose.connect(localhostDBURL, {
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
@@ -30,9 +30,9 @@ mongoose.connect(`mongodb://localhost:${ dbPort }/${ dbName }`, {
 });
 
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+db.on("error", console.error.bind(console, 'connection error:'));
 db.once("open", () => {
-    console.log(`==========> db server is running on port: ${ dbPort }`);
+    console.log('==========> db server is running');
 });
 
 const app = express();
