@@ -20,6 +20,8 @@ const campgroundsRoutes = require('./routes/campgrounds');
 const reviewsRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 
+const MongoDBStore = require('connect-mongo');
+
 // const mongoDBURL = process.env.mongoDB;
 const localhostDBURL = 'mongodb://localhost:27017/camp';
 mongoose.connect(localhostDBURL, {
@@ -48,8 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
 const sessionConfig = {
-    name: "session",
-    secret: "campgroundswebappcampgroundswebapp", 
+    name: "campgroundsSession",
+    secret: process.env.sessionConfigVar,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -57,7 +59,11 @@ const sessionConfig = {
         // secure: true,
         expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
         maxAge: (1000 * 60 * 60 * 24 * 7)
-    }
+    },
+    store: MongoDBStore.create({ 
+        mongoUrl: localhostDBURL,
+        touchafter: 24 * 60 * 60
+    })
 };
 
 app.use(session(sessionConfig));
