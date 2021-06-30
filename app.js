@@ -22,9 +22,8 @@ const usersRoutes = require('./routes/users');
 
 const MongoDBStore = require('connect-mongo');
 
-// const mongoDBURL = process.env.mongoDB;
-const localhostDBURL = 'mongodb://localhost:27017/camp';
-mongoose.connect(localhostDBURL, {
+const DBURL = process.env.mongoDB || 'mongodb://localhost:27017/camp';
+mongoose.connect(DBURL, {
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
@@ -49,9 +48,11 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const configVar = process.env.configVar;
+
 const sessionConfig = {
     name: "campgroundsSession",
-    secret: process.env.sessionConfigVar,
+    secret: configVar,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -61,8 +62,9 @@ const sessionConfig = {
         maxAge: (1000 * 60 * 60 * 24 * 7)
     },
     store: MongoDBStore.create({ 
-        mongoUrl: localhostDBURL,
-        touchafter: 24 * 60 * 60
+        mongoUrl: DBURL,
+        touchafter: 24 * 60 * 60,
+        secret: configVar
     })
 };
 
