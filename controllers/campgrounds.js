@@ -18,6 +18,7 @@ module.exports.createCampground = async (req, res, next) => {
         query: req.body.campground.location,
         limit: 2
     }).send()
+    consonle.log(geoData);
 
     const campground = new Campground(req.body.campground);
     campground.geometry = geoData.body.features[0].geometry;
