@@ -1,14 +1,11 @@
 # Campgrounds
-=============
-*Jun 2021 - Jul 2021*
+*Jun 2021 - Jul 2021*  
 Campgrounds full stack web application
 
 ## Website Link
-===============
 [Campgrounds](https://fathomless-stream-53371.herokuapp.com/)
 
 ### Scope of Work
-=================
 * set up node server
 * configure monogo DB connection
 * defining RESTful routes
@@ -23,7 +20,6 @@ Campgrounds full stack web application
 * implement MVC design pattern
 
 ### Tech Stack
-==============
 * Mongo
 * Express
 * Node.js
